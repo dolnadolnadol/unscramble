@@ -18,8 +18,7 @@ void read_board_from_file(char *filename, life_board *board)
   // Guarded against fopen failures
   int row_count = 0;
   int col_count = -1;
-  while (!feof(fp) &&
-        fgets(lines[row_count], MAX_COLS, fp)) {
+  while (!feof(fp) && fgets(lines[row_count], MAX_COLS, fp)) {
     // poor man's trim
     char *line = lines[row_count];
     while (line[strlen(line)-1]=='\n' || line[strlen(line)-1]==' ')
@@ -151,6 +150,8 @@ void make_next_board(life_board current, life_board next)
       if (current_cell == 1 && (live_neighbors < 2 || live_neighbors > 3))
         set_dead(next, row, col);
       else if (current_cell == 0 && live_neighbors == 3)
+        set_alive(next, row, col);
+      else if (current_cell == 1 && (live_neighbors == 2 || live_neighbors == 3))
         set_alive(next, row, col);
       else
         set_dead(next, row, col);
